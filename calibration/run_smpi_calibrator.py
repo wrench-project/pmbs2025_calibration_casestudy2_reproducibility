@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 import json
 import argparse
@@ -72,7 +74,7 @@ def main():
     parser.add_argument("-la", "--loss_aggregator", default="average_agg", choices=[
                         "max_agg", "average_agg"], type=str, help="The explained variance loss aggregator to use (average, max)")
     parser.add_argument("-hf", "--hostfile", type=str, default=file_abs_path /
-                        "data/hostfile.txt", help="Path to hostfile")  # Optional argument
+                        "defaults/hostfile.txt", help="Path to hostfile")  # Optional argument
     parser.add_argument("-b", "--benchmarks", default=benchmarks, type=lambda s: [
                         item for item in s.split(",")], help="Comma separated list of benchmarks to use for calibration")
     parser.add_argument("-n", "--node_counts", default=node_counts, type=lambda s: [int(
@@ -88,7 +90,8 @@ def main():
     parser.add_argument("-d", "--debug", action='store_true',
                         help="Enable debug messages")
     parser.add_argument("-p", "--param_file", type=str, default=file_abs_path /
-                        "data/params.txt", help="Path to parameter file")
+                        "defaults/params.txt", help="Path to parameter file")
+    parser.add_argument("-gf", "--ground_truth_file", type=str, help="Path to ground truth file", required=True)
 
     parser.add_argument("byte_sizes", nargs='?', default=byte_sizes, type=lambda s: [int(
         # Required
@@ -101,14 +104,15 @@ def main():
 
     hostfile = Path(args.hostfile).resolve()
 
+    ground_truth_file = Path(args.ground_truth_file).resolve()
+
     if not hostfile.exists():
         print("Error: Hostfile does not exist", file=sys.stderr)
         exit(-1)
 
     time_limit = pytimeparse.parse(args.time_limit)
 
-    summit_df = MPIGroundTruth(
-        file_abs_path / "data/imb-summit.csv")  # NOTE: change
+    summit_df = MPIGroundTruth(ground_truth_file)  # NOTE: change
 
     summit_df.set_benchmark_parent("P2P")
 
