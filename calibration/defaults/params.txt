@@ -1,0 +1,9 @@
+calibrator.add_param("cpu_speed", sc.parameter.Linear(20, 100).format("%.2fGf"))
+calibrator.add_param("pcie_bw", sc.parameter.Linear(16, 160).format("%.2fGBps"))
+calibrator.add_param("pcie_lat", sc.parameter.Linear(1, 30).format("%.2fns"))
+calibrator.add_param("xbus_bw", sc.parameter.Linear(20, 80).format("%.2fGBps"))
+calibrator.add_param("xbus_lat", sc.parameter.Linear(1, 30).format("%.2fns"))
+
+calibrator.add_param("latency", sc.parameter.Linear(1e-9, 1e-8).format("%.10f"))
+calibrator.add_param("bandwidth", sc.parameter.Linear(1e9, 100e9).format("%.2f"))
+calibrator.add_param("limiter_bw", sc.parameter.Linear(100, 10000).format("%.2fGbps"))
