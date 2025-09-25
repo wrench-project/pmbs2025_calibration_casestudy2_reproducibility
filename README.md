@@ -1,6 +1,6 @@
 
 ---
-# About
+## About
 
 This repository contains the software used for Case Study #2 in https://doi.org/10.1145/3731599.3767698, with the objective of making the experiments and results in that case study reproducible.
 
@@ -14,7 +14,7 @@ The experiments in the case study are conducted with the ground-truth data avail
 
 ---
 
-# Environment Setup
+## Environment Setup
 We have provided a Dockerfile in the root directory with all the necessary software installed.
 
 In particular the Docker image will include:
@@ -23,7 +23,7 @@ In particular the Docker image will include:
 - [Simcal](https://github.com/wrench-project/simcal) (commit tag `86445d59177922fa3711473bbf4e5e207005fcc2` was used in the experiments).  
 - The simulator in `simulator/`
 
-## Using the Dockerfile
+### Using the Dockerfile
 
 Make sure you are in the root directory of this repository before running the following commands.
 
@@ -43,12 +43,12 @@ Make sure you are in the root directory of this repository before running the fo
 
     Once inside the container's shell, you can proceed to the "Running the Experiments" section.
 
-## Manual Installation
+### Manual Installation
 
 *This section is a work in progress. For now, please use the recommended Docker setup above to ensure a consistent environment.*
 
 
-# Running the Experiments
+## Running the Experiments
 
 
 
