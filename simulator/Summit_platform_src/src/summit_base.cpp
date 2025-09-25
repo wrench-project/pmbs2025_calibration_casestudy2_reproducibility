@@ -38,10 +38,10 @@ static void add_gpus_to_cpu(sg4::NetZone* node_zone, const sg4::Host* cpu, unsig
 static void add_NVMe_to_cpus(const std::string& node_name, sg4::Host** cpus)
 {
   /* create the NVMe as a disk attached to one CPU */
-  auto* nvme = cpus[0]->create_disk(node_name + "-NVMe", nvme_read_bw, nvme_write_bw);
+  auto* nvme = cpus[0]->add_disk(node_name + "-NVMe", nvme_read_bw, nvme_write_bw);
   /* then have the other CPU access it too */
   /* NOTE: PCIe link to NVMe is not modeled here. This is not compatible with how local disk are declared in SimGrid */
-  cpus[1]->add_disk(nvme);
+  cpus[1]->add_disk(node_name + "-NVMe", nvme_read_bw, nvme_write_bw);
 }
 
 static simgrid::kernel::routing::NetPoint* add_cpus_and_nic(sg4::NetZone* node_zone, bool with_gpus, bool with_nvme)
