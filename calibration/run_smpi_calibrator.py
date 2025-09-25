@@ -91,13 +91,14 @@ def main():
                         help="Enable debug messages")
     parser.add_argument("-p", "--param_file", type=str, default=file_abs_path /
                         "defaults/params.txt", help="Path to parameter file")
+
+    parser.add_argument("--verbose", action="store_true",
+                        help="Enable verbose mode")  # Optional flag
+
     parser.add_argument("-gf", "--ground_truth_file", type=str, help="Path to ground truth file", required=True)
 
     parser.add_argument("byte_sizes", nargs='?', default=byte_sizes, type=lambda s: [int(
-        # Required
         item) for item in s.split(",")], help="List of byte sizes to calibrate")
-    parser.add_argument("--verbose", action="store_true",
-                        help="Enable verbose mode")  # Optional flag
 
     # Parse the arguments
     args = parser.parse_args()
@@ -145,10 +146,8 @@ def main():
     print("-----------------------------------------------------")
 
     json_obj["config"] = config_json
-    # json_encoder = CustomJSONEncoder()
 
     with open("result.txt", "w", encoding="utf-8") as f:
-        # print(json_encoder.encode(json_obj))
         f.write(json.dumps(json_obj, cls=CustomJSONEncoder, indent=4))
 
     smpi_sim = SMPISimulator(
