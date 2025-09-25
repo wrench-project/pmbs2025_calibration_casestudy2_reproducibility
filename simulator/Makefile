@@ -30,23 +30,24 @@
 #
 #  ***************************************************************************
 
+INSTALLDIR?=/usr/local
+
 TARGET=P2P
 BINARY:=IMB-P2P
 WRAPPER=wrapper_parallel
 
-SIMGRID_INSTALL_PATH=/home/wongy/local
+SIMGRID_INSTALL_PATH=/usr/local
 
-override CFLAGS += -I$(SIMGRID_INSTALL_PATH)/include -L$(SIMGRID_INSTALL_PATH)/lib64
+override CFLAGS += -I$(SIMGRID_INSTALL_PATH)/include -L$(SIMGRID_INSTALL_PATH)/lib
 override CFLAGS += -DSMPI_NO_OVERRIDE_MALLOC=1 -Ofast -Wall -Wextra -pedantic -Wno-long-long
-override CXXFLAGS += -I$(SIMGRID_INSTALL_PATH)/include -L$(SIMGRID_INSTALL_PATH)/lib64
+override CXXFLAGS += -I$(SIMGRID_INSTALL_PATH)/include -L$(SIMGRID_INSTALL_PATH)/lib
 override CXXFLAGS += -DSMPI_NO_OVERRIDE_MALLOC=1 -O3 -Wall -Wextra -pedantic -Wno-long-long
 
 override LDFLAGS += -lm -lsimgrid
 
-ifeq ($(origin CC),default)
-CC=smpicc
-CXX=g++
-endif
+override CC=smpicc
+override CXX=g++
+
 
 all: $(BINARY) $(WRAPPER)
 
@@ -82,6 +83,9 @@ $(BINARY): $(IMB_OBJ)
 clean:
 	rm -f $(IMB_OBJ) $(WRAPPER_OBJ) $(BINARY) $(WRAPPER)
 
-$(IMB_OBJ): $(HEADERS) Makefile
+install:
+	mkdir -p $(INSTALLDIR)/bin
+	cp $(BINARY) $(INSTALLDIR)/bin/
+	cp $(WRAPPER) $(INSTALLDIR)/bin/
 
 .PHONY: clean all
