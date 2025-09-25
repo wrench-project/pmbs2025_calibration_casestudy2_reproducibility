@@ -7,7 +7,7 @@ import sys
 import subprocess
 from pathlib import Path
 
-SIMGRID_INSTALL_PATH = "/home/wongy/local" #NOTE: change this accordingly
+SIMGRID_INSTALL_PATH = "/usr/local" #NOTE: change this accordingly
 
 f_node = open(sys.argv[1])
 node = json.load(f_node)
@@ -92,21 +92,21 @@ cluster->seal();
 # cluster->seal();
 
 base   = subprocess.run(['g++', '--std=c++17', '-I'+ SIMGRID_INSTALL_PATH +'/include', '-L'+ SIMGRID_INSTALL_PATH +
-                        '/lib64/', '-lsimgrid', '-fPIC', '-g', '-O2', '-Wall', '-Wextra', '-c', path / 'src/summit_base.cpp', '-o',
+                        '/lib', '-lsimgrid', '-fPIC', '-g', '-O2', '-Wall', '-Wextra', '-c', path / 'src/summit_base.cpp', '-o',
                         path / 'lib/summit_base.o'])
 if base.returncode != 0:
       sys.stderr.write("Compilation of summit_base.cpp failed\n")
       sys.exit(1)
 
 compil = subprocess.run(['g++', '--std=c++17', '-I'+ SIMGRID_INSTALL_PATH +'/include', '-I' + (str(path / 'src')),
-                         '-L'+ SIMGRID_INSTALL_PATH + '/lib64/', '-lsimgrid', '-fPIC', '-g', '-O2', '-Wall', '-Wextra',
+                         '-L'+ SIMGRID_INSTALL_PATH + '/lib/', '-lsimgrid', '-fPIC', '-g', '-O2', '-Wall', '-Wextra',
                          '-c', 'tmp.cpp', '-o', 'tmp.o'])
 
 if compil.returncode != 0:
       sys.stderr.write("Compilation of tmp.cppfailed\n")
       sys.exit(1)
 
-link   = subprocess.run(['g++', '--std=c++17', '-shared', '-I'+ SIMGRID_INSTALL_PATH +'/include', '-L'+SIMGRID_INSTALL_PATH + '/lib64', '-lsimgrid', 'tmp.o', '-o', topo["name"] + ".so",
+link   = subprocess.run(['g++', '--std=c++17', '-shared', '-I'+ SIMGRID_INSTALL_PATH +'/include', '-L'+SIMGRID_INSTALL_PATH + '/lib', '-lsimgrid', 'tmp.o', '-o', topo["name"] + ".so",
                         path / "lib/summit_base.o"])
 if link.returncode != 0:
       sys.stderr.write("Linking failed\n")

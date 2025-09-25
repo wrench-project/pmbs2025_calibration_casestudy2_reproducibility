@@ -18,8 +18,13 @@ from calibrate_flops import calibrate_hostspeed
 
 file_abs_path = Path(__file__).parent.absolute()
 
-MPI_EXEC = Path(file_abs_path.parent / "bin").resolve()
-summit = Path(file_abs_path / "Summit").resolve()
+# NOTE: Change path as needed
+
+# Path to MPI executable/benchmarks (ex. wrapper_parallel, IMB-P2P)
+MPI_EXEC = Path("/usr/local/bin").resolve()
+
+#Path to Summit platform generator
+summit = Path(file_abs_path / "../simulator/Summit_platform_src").resolve()
 
 
 class SMPISimulator(sc.Simulator):
@@ -264,7 +269,7 @@ class SMPISimulator(sc.Simulator):
         error_file.flush()
 
         std_out, std_err, exit_code = sc.bash(
-            MPI_EXEC / "wrapper_parallel", cmd_args, std_in=None
+            "wrapper_parallel", cmd_args, std_in=None
         )
 
         if exit_code:
