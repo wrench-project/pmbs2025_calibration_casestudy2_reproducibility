@@ -2,12 +2,12 @@
 ---
 ## About
 
-This repository contains the software used for Case Study #2 in https://doi.org/10.1145/3731599.3767698, with the objective of making the experiments and results in that case study reproducible.
+This repository contains the software used for Case Study #2 in [https://doi.org/10.1145/3731599.3767698](https://doi.org/10.1145/3731599.3767698), with the objective of making the experiments and results in that case study reproducible.
 
-The software is composed of two main parts:
+The software is composed of two parts:
 
-  - **The Simulator**: A simulation of Intel MPI benchmark using SimGrid, located in the `simulator/` directory.
-  - **Calibration scripts**: A set of python scripts that utlizing simcal to calibrate the simulator, located in the `calibration/` directory.
+  - **The Simulator**: A simulation of Intel MPI benchmark implemented with SimGrid, located in the `simulator/` directory.
+  - **Calibration scripts**: A set of python scripts that utilize Simcal to calibrate the simulator, located in the `calibration/` directory.
 
 
 The experiments in the case study are conducted with the ground-truth data available on [figshare](https://doi.org/10.6084/m9.figshare.30132955).
@@ -15,7 +15,8 @@ The experiments in the case study are conducted with the ground-truth data avail
 ---
 
 ## Environment Setup
-We have provided a Dockerfile in the root directory with all the necessary software installed.
+
+A `Dockerfile` is provided in the root directory to build a Docker image that has all the necessary software installed.
 
 In particular the Docker image will include:
 - [SimGrid 4.0](https://framagit.org/simgrid/simgrid/)
@@ -45,21 +46,22 @@ Make sure you are in the root directory of this repository before running the fo
 
 ### Manual Installation
 
-*This section is a work in progress. For now, please use the recommended Docker setup above to ensure a consistent environment.*
+Reading the `Dockerfile` should make it very clear how to install all necessary software locally on a recen
+t Ubuntu system. 
 
 ---
 
 ## Running the Software
 
-### Simulator Scripts
+### MPI Execution Simulator
 
 The simulator is invoked by the calibration scripts in (see next section). But the simulator can also be invoked stand-alone. 
 
-Please refer to the `README` in the `simulator/` directory for detailed guideline on how to run the simulator.
+Please refer to the `README.md` in the `simulator/` directory for detailed guideline on how to run the simulator.
 
 ### Calibration Scripts
 
-Please refer to the `README` in the `calibration/` directory for detailed guidelines on how to run the calibration.
+Please refer to the `README.md` in the `calibration/` directory for detailed guidelines on how to run the calibration scripts.
 
 ---
 
