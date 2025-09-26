@@ -23,7 +23,7 @@ In particular the Docker image will include:
 - [Simcal](https://github.com/wrench-project/simcal) (commit tag `86445d59177922fa3711473bbf4e5e207005fcc2` was used in the experiments).  
 - The simulator in `simulator/`
 
-### Using the Dockerfile
+### Using Docker
 
 Make sure you are in the root directory of this repository before running the following commands.
 
@@ -41,14 +41,27 @@ Make sure you are in the root directory of this repository before running the fo
     docker run -it -v $(pwd):/workspace case-study-2-env bash
     ```
 
-    Once inside the container's shell, you can proceed to the "Running the Experiments" section.
+    Once inside the container's shell, you can proceed to the "Running the Software" section.
 
 ### Manual Installation
 
 *This section is a work in progress. For now, please use the recommended Docker setup above to ensure a consistent environment.*
 
+---
 
-## Running the Experiments
+## Running the Software
+
+### Simulator Scripts
+
+The simulator is invoked by the calibration scripts in (see next section). But the simulator can also be invoked stand-alone. 
+
+Please refer to the `README` in the `simulator/` directory for detailed guideline on how to run the simulator.
+
+### Calibration Scripts
+
+Please refer to the `README` in the `calibration/` directory for detailed guidelines on how to run the calibration.
+
+---
 
 
 
