@@ -55,7 +55,7 @@ t Ubuntu system.
 
 ### MPI Execution Simulator
 
-The simulator is invoked by the calibration scripts in (see next section). But the simulator can also be invoked stand-alone. 
+The simulator is invoked by the calibration scripts in (see below). But the simulator can also be invoked stand-alone. 
 
 Please refer to the `README.md` in the `simulator/` directory for detailed guideline on how to run the simulator.
 
