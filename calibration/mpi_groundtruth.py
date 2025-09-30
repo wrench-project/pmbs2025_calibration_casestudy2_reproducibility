@@ -161,19 +161,3 @@ class MPIGroundTruth:
         data = list(data_df["Mbytes/sec"])
 
         return data
-
-
-if __name__ == '__main__':
-    from pathlib import Path
-
-    file_abs_path = Path(__file__).parent.absolute()
-    
-    summit_ground_truth = MPIGroundTruth(file_abs_path.parent / "imb-summit.csv")
-
-    summit_ground_truth.set_benchmark_parent("P2P")
-
-    filtered_ground_truth = summit_ground_truth.get_ground_truth(
-        benchmarks=["Stencil2D"], node_counts=[128, 256], byte_sizes=[4194304])
-
-    print("Known points:", filtered_ground_truth[0])
-    print("Data:", filtered_ground_truth[1])
