@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 import sys
 import ast
+import argparse
 import os
 import json
 import glob
@@ -23,7 +26,7 @@ file_abs_path = Path(__file__).parent.absolute()
 # Path to MPI executable/benchmarks (ex. wrapper_parallel, IMB-P2P)
 MPI_EXEC = Path("/usr/local/bin").resolve()
 
-#Path to Summit platform generator
+# Path to Summit platform generator
 summit = Path(file_abs_path / "../simulator/Summit_platform_src").resolve()
 
 
@@ -363,9 +366,6 @@ class SMPISimulator(sc.Simulator):
 
 
 if __name__ == "__main__":
-    import argparse
-    # byte_sizes = [0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4194304]
-
     benchmarks = ["Birandom", "PingPing", "PingPong"]
     byte_sizes = [1024, 2048, 4096, 8192, 16384, 32768, 65536,
                   131072, 262144, 524288, 1048576, 2097152, 4194304]
@@ -374,27 +374,43 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Script to run the SMPI simulator")
 
-    # byte_sizes is a list of integers separated by commas
+    parser.add_argument("-gf", "--ground_truth_file", type=str,
+                        help="Path to ground truth file", required=True)
+
     parser.add_argument("-top", "--topology_template", type=str,
-                        default="config/fattree-complex.json", help="Calibration file to use for topology")
+                        default="config/fattree-complex.json",
+                        help="Calibration file to use for topology")
+
     parser.add_argument("-sc", "--simple", action="store_true",
                         help="Use simple compute node")
+
     parser.add_argument("-s", "--split", default=[], type=lambda s: [int(item)
-                        for item in s.split(",")], help="Comma separated list og byte sizes to use for the split")
+                        for item in s.split(",")], 
+                        help="Comma separated list og byte sizes to use for the split")
+
     parser.add_argument("-lf", "--loss_function", default="average", choices=[
-                        "max", "average"], type=str, help="The explained variance loss function to use (average, max)")
+                        "max", "average"], type=str, 
+                        help="The explained variance loss function to use (average, max)")
+
     parser.add_argument("-la", "--loss_aggregator", default="average_agg", choices=[
-                        "max_agg", "average_agg"], type=str, help="The explained variance loss aggregator to use (average, max)")
+                        "max_agg", "average_agg"], type=str, 
+                        help="The explained variance loss aggregator to use (average, max)")
+
     parser.add_argument("-hf", "--hostfile", type=str, default=file_abs_path /
-                        "data/hostfile.txt", help="Path to hostfile")  # Optional argument
+                        "data/hostfile.txt", help="Path to hostfile")
+
     parser.add_argument("-b", "--benchmarks", default=benchmarks, type=lambda s: [
-                        item for item in s.split(",")], help="Comma separated list of benchmarks to use for calibration")
+                        item for item in s.split(",")],
+                        help="Comma separated list of benchmarks to use for calibration")
+
     parser.add_argument("-n", "--node_counts", default=node_counts, type=lambda s: [int(
-        item) for item in s.split(",")], help="Comma separated list of node counts to use for calibration")
+                        item) for item in s.split(",")], 
+                        help="Comma separated list of node counts to use for calibration")
+
     parser.add_argument("-f", "--calibration_file", type=str,
                         default="", help="Calibration file to use for calibration")
+
     parser.add_argument("byte_sizes", nargs='?', default=byte_sizes, type=lambda s: [int(
-        # Required
         item) for item in s.split(",")], help="List of byte sizes to calibrate")
 
     # Parse the arguments
@@ -404,8 +420,9 @@ if __name__ == "__main__":
     node_counts = args.node_counts
     byte_sizes = args.byte_sizes
 
-    summit_ground_truth = MPIGroundTruth(
-        file_abs_path.parent / "imb-summit.csv")
+    ground_truth_file = Path(args.ground_truth_file).resolve()
+
+    summit_ground_truth = MPIGroundTruth(ground_truth_file)
     summit_ground_truth.set_benchmark_parent("P2P")
     ground_truth_data = summit_ground_truth.get_ground_truth(
         benchmarks=benchmarks, node_counts=node_counts, byte_sizes=byte_sizes)

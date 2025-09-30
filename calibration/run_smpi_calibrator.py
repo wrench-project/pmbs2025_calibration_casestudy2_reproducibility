@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys
 import json
@@ -62,40 +62,54 @@ def main():
 
     node_counts = [128]
 
+    parser.add_argument("-gf", "--ground_truth_file", type=str,
+                        help="Path to ground truth file", required=True)
+
     # SIMULATOR PARAMETERS
     parser.add_argument("-top", "--topology", default="config/6-racks-no-gpu-no-nvme.json",
                         type=str, help="Topology of the cluster in the form of a config json file")
+
     parser.add_argument("-sc", "--simple_compute", action='store_true',
                         help="Whether to use simple compute nodes")
-    parser.add_argument("-s", "--split", default=None, type=lambda s: [int(item) for item in s.split(
-        ",")], help="Comma separated list of splits to use for latency/bandwidth factor")
+
+    parser.add_argument("-s", "--split", default=None,
+                        type=lambda s: [int(item) for item in s.split(",")],
+                        help="Comma separated list of splits to use for latency/bandwidth factor")
+
     parser.add_argument("-lf", "--loss_function", default="average", choices=[
-                        "max", "average"], type=str, help="The explained variance loss function to use (average, max)")
+                        "max", "average"], type=str,
+                        help="The explained variance loss function to use (average, max)")
+
     parser.add_argument("-la", "--loss_aggregator", default="average_agg", choices=[
-                        "max_agg", "average_agg"], type=str, help="The explained variance loss aggregator to use (average, max)")
+                        "max_agg", "average_agg"], type=str,
+                        help="The explained variance loss aggregator to use (average, max)")
+
     parser.add_argument("-hf", "--hostfile", type=str, default=file_abs_path /
-                        "defaults/hostfile.txt", help="Path to hostfile")  # Optional argument
+                        "defaults/hostfile.txt", help="Path to hostfile")
+
     parser.add_argument("-b", "--benchmarks", default=benchmarks, type=lambda s: [
-                        item for item in s.split(",")], help="Comma separated list of benchmarks to use for calibration")
+                        item for item in s.split(",")],
+                        help="Comma separated list of benchmarks to use for calibration")
+
     parser.add_argument("-n", "--node_counts", default=node_counts, type=lambda s: [int(
-        item) for item in s.split(",")], help="Comma separated list of node counts to use for calibration")
+                        item) for item in s.split(",")],
+                        help="Comma separated list of node counts to use for calibration")
 
     # CALIBRATOR PARAMETERS
     parser.add_argument("-a", "--algorithm", type=str, default="random",
-                        # Optional argument
                         help="Algorithms to use for calibration (Default: random)")
+
     parser.add_argument("-t", "--time_limit", type=str, default="3h",
-                        # Optional argument
                         help="Time limit for calibration (Default: 3h)")
+
     parser.add_argument("-d", "--debug", action='store_true',
                         help="Enable debug messages")
+
     parser.add_argument("-p", "--param_file", type=str, default=file_abs_path /
                         "defaults/params.txt", help="Path to parameter file")
 
     parser.add_argument("--verbose", action="store_true",
-                        help="Enable verbose mode")  # Optional flag
-
-    parser.add_argument("-gf", "--ground_truth_file", type=str, help="Path to ground truth file", required=True)
+                        help="Enable verbose mode")
 
     parser.add_argument("byte_sizes", nargs='?', default=byte_sizes, type=lambda s: [int(
         item) for item in s.split(",")], help="List of byte sizes to calibrate")
@@ -113,7 +127,7 @@ def main():
 
     time_limit = pytimeparse.parse(args.time_limit)
 
-    summit_df = MPIGroundTruth(ground_truth_file)  # NOTE: change
+    summit_df = MPIGroundTruth(ground_truth_file)
 
     summit_df.set_benchmark_parent("P2P")
 
