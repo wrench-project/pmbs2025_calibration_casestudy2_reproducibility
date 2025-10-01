@@ -1,6 +1,7 @@
 
 ---
 # Overview
+
 This directory contains scripts and utilities for calibrating and simulating MPI performance, as well as ground truth generation and supporting configuration files.
 
 ## Python Scripts
@@ -29,14 +30,17 @@ The following section provides detailed descriptions and usage instructions for 
 # Running the Scripts
 
 ## `SMPISimulator.py`
-This file not only implements the SMPISimulator class but also functions as a command-line utility that takes a list of simulator arguments to execute a single simulation run.
+This file not only implements the `SMPISimulator` class but also functions as a command-line utility that takes a list of simulator arguments to execute a single simulation run, invoked as:
 
 ```bash
 ./SMPISimulator.py
 ```
+
 ## `run_smpi_calibrator.py`
+The calibrator is invoked as:
 
 ```bash
 ./run_smpi_calibrator.py
 ```
+
 ---
