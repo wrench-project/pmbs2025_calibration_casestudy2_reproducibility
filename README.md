@@ -46,8 +46,7 @@ Make sure you are in the root directory of this repository before running the fo
 
 ### Manual Installation
 
-Reading the `Dockerfile` should make it very clear how to install all necessary software locally on a recen
-t Ubuntu system. 
+Reading the `Dockerfile` should make it very clear how to install all necessary software locally on a recent Ubuntu system. 
 
 ---
 
