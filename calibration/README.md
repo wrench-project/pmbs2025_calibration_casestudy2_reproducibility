@@ -90,8 +90,8 @@ This script is a command-line utility used to calibrate the simulator. The scrip
     * **Type**: `list[int]`
     * **Default**: `None`
     * **Example**: `--split 1024,16384,524288`
-    > [!NOTE]
-    >  Defining the argument requires you to add a corresponding `network/latency-factor_{i}` or `network/bandwidth-factor_{i}` to `params.txt`, where `i` refers to the i<sup>th</sup> integer split. See `calibration/defaults/params.txt` for more information.
+> [!NOTE]
+>  Defining the argument requires you to add a corresponding `network/latency-factor_{i}` or `network/bandwidth-factor_{i}` to `params.txt`, where `i` refers to the i<sup>th</sup> integer split. See `calibration/defaults/params.txt` for more information.
 
 * `--loss_function`, `-lf`
     * **Description**: Sets the explained variance loss function to use.
@@ -121,8 +121,8 @@ This script is a command-line utility used to calibrate the simulator. The scrip
     * **Type**: `list[int]`
     * **Default**: A pre-defined list of node counts.
     * **Example**: `--node_counts 128,256,512`
-    >[!NOTE]
-    > Ensure that the ground-truth include data of the specified node count.
+>[!NOTE]
+> Ensure that the ground-truth include data of the specified node count.
 
 * `--algorithm`, `-a`
     * **Description**: Defines the algorithm to be used for calibration.
@@ -135,8 +135,8 @@ This script is a command-line utility used to calibrate the simulator. The scrip
     * **Type**: `string`
     * **Default**: `3h`
     * **Example** `--time_limit 2d`, `--time-limit 10m`
-    >[!NOTE]
-    > See [pytimeparse](https://github.com/wroberts/pytimeparse) for all available time expressions.
+>[!NOTE]
+> See [pytimeparse](https://github.com/wroberts/pytimeparse) for all available time expressions.
 
 * `--param_file`, `-p`
     * **Description**: Specifies the path to the parameter file.
