@@ -65,7 +65,7 @@ def main():
                         help="Path to ground truth file", required=True)
 
     # SIMULATOR PARAMETERS
-    parser.add_argument("-top", "--topology", default="config/6-racks-no-gpu-no-nvme.json",
+    parser.add_argument("-top", "--topology", default="config/fattree-complex.json",
                         type=str, help="Topology of the cluster in the form of a config json file")
 
     parser.add_argument("-sc", "--simple_compute", action='store_true',
