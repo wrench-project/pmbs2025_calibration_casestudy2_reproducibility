@@ -95,7 +95,8 @@ def main():
                         help="Comma separated list of node counts to use for calibration")
 
     # CALIBRATOR PARAMETERS
-    parser.add_argument("-a", "--algorithm", type=str, default="random",
+    parser.add_argument("-a", "--algorithm", type=str, default="random", choices=[
+                        "grid", "random", "gradient", "skopt.gp", "skopt.et", "skopt.rf", "skopt.gbrt"],
                         help="Algorithms to use for calibration (Default: random)")
 
     parser.add_argument("-t", "--time_limit", type=str, default="3h",
@@ -160,7 +161,7 @@ def main():
 
     json_obj["config"] = config_json
 
-    with open("result.txt", "w", encoding="utf-8") as f:
+    with open("result.json", "w", encoding="utf-8") as f:
         f.write(json.dumps(json_obj, cls=CustomJSONEncoder, indent=4))
 
     smpi_sim = SMPISimulator(
@@ -183,7 +184,7 @@ def main():
 
     json_obj["results"] = result_json
 
-    with open("result.txt", "w", encoding="utf-8") as f:
+    with open("result.json", "w", encoding="utf-8") as f:
         print("Calibrated Args: ")
         print(calibration)
         print(f"Loss: {loss}")
