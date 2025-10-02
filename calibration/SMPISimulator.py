@@ -115,10 +115,8 @@ class SMPISimulator(sc.Simulator):
 
             node_keys = node.keys()
             topology_keys = topology.keys()
-            # latency_factor = []
             latency_split = {}
             latency_factor = {}
-            # bandwidth_factor = []
             bandwidth_split = {}
             bandwidth_factor = {}
 
@@ -169,7 +167,6 @@ class SMPISimulator(sc.Simulator):
                 latency_factor = [
                     f"{self.byte_split[i]}:{latency_factor[i]}" for i in range(len(latency_factor))]
                 latency_factor = ";".join(latency_factor)
-                # print(f"--cfg=network/latency-factor:\"{latency_factor}\"")
                 smpi_args.append(
                     f"--cfg=network/latency-factor:\"{latency_factor}\"")
 
@@ -186,7 +183,6 @@ class SMPISimulator(sc.Simulator):
                 bandwidth_factor = [f"{self.byte_split[i]}:{bandwidth_factor[i]}" for i in range(
                     len(bandwidth_factor))]
                 bandwidth_factor = ";".join(bandwidth_factor)
-                # print(f"--cfg=network/bandwidth-factor:\"{bandwidth_factor}\"")
                 smpi_args.append(
                     f"--cfg=network/bandwidth-factor:\"{bandwidth_factor}\"")
 
@@ -217,7 +213,8 @@ class SMPISimulator(sc.Simulator):
 
         if exit_code:
             sys.stderr.write(
-                f"Platform was unable to be built and has failed with exit code {exit_code}!\n\n{std_err}\n"
+                "Platform was unable to be built and has failed with exit code "
+                f"{exit_code}!\n\n{std_err}\n"
             )
             exit(1)
 
@@ -236,8 +233,11 @@ class SMPISimulator(sc.Simulator):
 
         return result
 
-    def run_single_simulation(self, tmp_dir, benchmark, iterations, byte_size, thresholds=[]):
+    def run_single_simulation(self, tmp_dir, benchmark, iterations, byte_size, thresholds=None):
         executable = MPI_EXEC / self.benchmark_parent
+
+        if thresholds is None:
+            thresholds = []
 
         platform_file = tmp_dir / "summit_temp.so"
 
@@ -310,6 +310,8 @@ class SMPISimulator(sc.Simulator):
             # i[1] is the number of nodes
             # i[2] is the byte size
             # i[3] is the data
+
+            # Look at the standard deviation of the ground truth data to determine threshold
             thresholds = []
             byte_len = len(i[3])
             for byte_index in range(byte_len):
@@ -377,7 +379,7 @@ if __name__ == "__main__":
     parser.add_argument("-gf", "--ground_truth_file", type=str,
                         help="Path to ground truth file", required=True)
 
-    parser.add_argument("-top", "--topology_template", type=str,
+    parser.add_argument("-top", "--topology", type=str,
                         default="config/fattree-complex.json",
                         help="Calibration file to use for topology")
 
@@ -385,15 +387,15 @@ if __name__ == "__main__":
                         help="Use simple compute node")
 
     parser.add_argument("-s", "--split", default=[], type=lambda s: [int(item)
-                        for item in s.split(",")], 
+                        for item in s.split(",")],
                         help="Comma separated list og byte sizes to use for the split")
 
     parser.add_argument("-lf", "--loss_function", default="average", choices=[
-                        "max", "average"], type=str, 
+                        "max", "average"], type=str,
                         help="The explained variance loss function to use (average, max)")
 
     parser.add_argument("-la", "--loss_aggregator", default="average_agg", choices=[
-                        "max_agg", "average_agg"], type=str, 
+                        "max_agg", "average_agg"], type=str,
                         help="The explained variance loss aggregator to use (average, max)")
 
     parser.add_argument("-hf", "--hostfile", type=str, default=file_abs_path /
@@ -404,10 +406,10 @@ if __name__ == "__main__":
                         help="Comma separated list of benchmarks to use for calibration")
 
     parser.add_argument("-n", "--node_counts", default=node_counts, type=lambda s: [int(
-                        item) for item in s.split(",")], 
+                        item) for item in s.split(",")],
                         help="Comma separated list of node counts to use for calibration")
 
-    parser.add_argument("-f", "--calibration_file", type=str,
+    parser.add_argument("-cf", "--calibration_file", type=str,
                         default="", help="Calibration file to use for calibration")
 
     parser.add_argument("byte_sizes", nargs='?', default=byte_sizes, type=lambda s: [int(
